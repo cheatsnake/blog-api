@@ -3,11 +3,9 @@ import {
     Controller,
     Delete,
     Get,
-    HttpCode,
     HttpException,
     HttpStatus,
     Param,
-    Patch,
     Post,
 } from "@nestjs/common";
 import { COMMENT_NOT_FOUND } from "./comment.constants";
