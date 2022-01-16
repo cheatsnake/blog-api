@@ -5,6 +5,9 @@ import { CommentController } from "./comment/comment.controller";
 import { ConfigModule, ConfigService } from "@nestjs/config";
 import { TypegooseModule } from "nestjs-typegoose";
 import { mongoConfig } from "./configs/mongo.config";
+import { AuthModule } from "./auth/auth.module";
+import { CommentModule } from "./comment/comment.module";
+import { PostModule } from "./post/post.module";
 
 @Module({
     imports: [
@@ -14,8 +17,11 @@ import { mongoConfig } from "./configs/mongo.config";
             inject: [ConfigService],
             useFactory: mongoConfig,
         }),
+        AuthModule,
+        CommentModule,
+        PostModule,
     ],
-    controllers: [AuthController, PostController, CommentController],
+    controllers: [],
     providers: [],
 })
 export class AppModule {}
