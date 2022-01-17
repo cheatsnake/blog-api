@@ -7,6 +7,8 @@ import {
     HttpStatus,
     Param,
     Post,
+    UsePipes,
+    ValidationPipe,
 } from "@nestjs/common";
 import { COMMENT_NOT_FOUND } from "./comment.constants";
 import { CommentService } from "./comment.service";
@@ -16,6 +18,7 @@ import { CreateCommentDto } from "./dto/create-comment.dto";
 export class CommentController {
     constructor(private readonly commentService: CommentService) {}
 
+    @UsePipes(new ValidationPipe())
     @Post("create")
     async create(@Body() dto: CreateCommentDto) {
         this.commentService.create(dto);
