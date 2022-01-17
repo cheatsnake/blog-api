@@ -8,6 +8,8 @@ import {
     Param,
     Patch,
     Post,
+    UsePipes,
+    ValidationPipe,
 } from "@nestjs/common";
 import { FindPostDto } from "./dto/find-post.dto";
 import { POST_NOT_FOUND } from "./post.constants";
@@ -18,6 +20,7 @@ import { PostService } from "./post.service";
 export class PostController {
     constructor(private readonly postService: PostService) {}
 
+    @UsePipes(new ValidationPipe())
     @Post("create")
     async create(@Body() dto: PostModel) {
         return this.postService.create(dto);
@@ -40,6 +43,7 @@ export class PostController {
         }
     }
 
+    @UsePipes(new ValidationPipe())
     @Patch(":id")
     async updateById(@Param("id") id: string, @Body() dto: PostModel) {
         const updatedPost = await this.postService.updateById(id, dto);
@@ -49,6 +53,7 @@ export class PostController {
         return updatedPost;
     }
 
+    @UsePipes(new ValidationPipe())
     @HttpCode(200)
     @Post("find")
     async findByCategory(@Body() dto: FindPostDto) {
