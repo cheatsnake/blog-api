@@ -1,4 +1,5 @@
 import { Injectable, UnauthorizedException } from "@nestjs/common";
+import { JwtService } from "@nestjs/jwt";
 import { ModelType } from "@typegoose/typegoose/lib/types";
 import { compare, genSalt, hash } from "bcryptjs";
 import { InjectModel } from "nestjs-typegoose";
@@ -10,7 +11,8 @@ import { EMAIL_NOT_FOUND, WRONG_PASSWORD } from "./auth.constants";
 export class AuthService {
     constructor(
         @InjectModel(AdminModel)
-        private readonly adminService: AdminService
+        private readonly adminService: AdminService,
+        private readonly jwtService: JwtService
     ) {}
 
     async validateAdmin(
@@ -26,5 +28,12 @@ export class AuthService {
         }
 
         return { email: admin.email };
+    }
+
+    async login(email: string) {
+        const payload = { email };
+        return {
+            access_token: await this.jwtService.signAsync(payload),
+        };
     }
 }
