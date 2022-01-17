@@ -1,28 +1,30 @@
-import { Injectable } from "@nestjs/common";
+import { Injectable, UnauthorizedException } from "@nestjs/common";
 import { ModelType } from "@typegoose/typegoose/lib/types";
-import { genSalt, hash } from "bcryptjs";
+import { compare, genSalt, hash } from "bcryptjs";
 import { InjectModel } from "nestjs-typegoose";
 import { AdminModel } from "./admin.model";
-import { AuthDto } from "./dto/auth.dto";
+import { AdminService } from "./admin.service";
+import { EMAIL_NOT_FOUND, WRONG_PASSWORD } from "./auth.constants";
 
 @Injectable()
 export class AuthService {
     constructor(
         @InjectModel(AdminModel)
-        private readonly adminModel: ModelType<AdminModel>
+        private readonly adminService: AdminService
     ) {}
 
-    async createAdmin(dto: AuthDto) {
-        const salt = await genSalt(10);
-        const newAdmin = new this.adminModel({
-            email: dto.email,
-            passwordHash: await hash(dto.password, salt),
-        });
+    async validateAdmin(
+        email: string,
+        password: string
+    ): Promise<Pick<AdminModel, "email">> {
+        const admin = await this.adminService.findAdmin(email);
+        if (!admin) throw new UnauthorizedException(EMAIL_NOT_FOUND);
 
-        return newAdmin.save();
-    }
+        const isCorrectPassword = await compare(password, admin.passwordHash);
+        if (!isCorrectPassword) {
+            throw new UnauthorizedException(WRONG_PASSWORD);
+        }
 
-    async findAdmin(email: string) {
-        return this.adminModel.findOne({ email }).exec();
+        return { email: admin.email };
     }
 }
