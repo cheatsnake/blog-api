@@ -16,6 +16,10 @@ export class CommentService {
         return await this.commentModel.create(dto);
     }
 
+    async findById(id: string) {
+        return await this.commentModel.findById(id).exec();
+    }
+
     async findByPostId(postId: string): Promise<DocumentType<CommentModel>[]> {
         return this.commentModel
             .find({ postId: new Types.ObjectId(postId) })

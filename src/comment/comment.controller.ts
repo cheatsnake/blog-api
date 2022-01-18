@@ -26,9 +26,18 @@ export class CommentController {
         this.commentService.create(dto);
     }
 
+    @Get("/:id")
+    async findById(@Param("id") id: string) {
+        const comment = await this.commentService.findById(id);
+        if (!comment) {
+            throw new HttpException(COMMENT_NOT_FOUND, HttpStatus.NOT_FOUND);
+        }
+        return comment;
+    }
+
     @Get("byPost/:postId")
     async findByPostId(@Param("postId") postId: string) {
-        return this.commentService.findByPostId(postId);
+        return await this.commentService.findByPostId(postId);
     }
 
     @UseGuards(JwtAuthGuard)
