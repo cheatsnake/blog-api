@@ -1,5 +1,6 @@
 import { Injectable } from "@nestjs/common";
 import { ModelType } from "@typegoose/typegoose/lib/types";
+import { Types } from "mongoose";
 import { InjectModel } from "nestjs-typegoose";
 import { CommentModel } from "src/comment/comment.model";
 import { CreatePostDto } from "./dto/create-post.dto";
@@ -19,19 +20,22 @@ export class PostService {
 
     async findById(id: string) {
         return await this.postModel.findById(id).exec();
-        // return this.postModel
-        //     .aggregate()
-        //     .match({ _id: new Types.ObjectId(id) })
-        //     .lookup({
-        //         from: "Comment",
-        //         localField: "_id",
-        //         foreignField: "postId",
-        //         as: "comments",
-        //     })
-        //     .exec() as unknown as PostModel &
-        //     {
-        //         comments: CommentModel[];
-        //     }[];
+    }
+
+    async findByIdWithComments(id: string) {
+        return this.postModel
+            .aggregate()
+            .match({ _id: new Types.ObjectId(id) })
+            .lookup({
+                from: "Comment",
+                localField: "_id",
+                foreignField: "postId",
+                as: "comments",
+            })
+            .exec() as unknown as PostModel &
+            {
+                comments: CommentModel[];
+            }[];
     }
 
     async deleteById(id: string) {
@@ -70,5 +74,12 @@ export class PostService {
             .exec() as unknown as (PostModel & {
             comments: CommentModel[];
         })[];
+    }
+
+    async findByCategoryLite(dto: FindPostDto) {
+        return this.postModel
+            .find({ category: dto.category })
+            .limit(dto.limit)
+            .select("-content -tags");
     }
 }

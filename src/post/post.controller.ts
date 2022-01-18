@@ -38,6 +38,15 @@ export class PostController {
         return post;
     }
 
+    @Get("withComments/:id")
+    async findByIdWithComments(@Param("id") id: string) {
+        const post = await this.postService.findByIdWithComments(id);
+        if (!post.length) {
+            throw new NotFoundException(POST_NOT_FOUND);
+        }
+        return post[0];
+    }
+
     @UseGuards(JwtAuthGuard)
     @Delete(":id")
     async deleteById(@Param("id") id: string) {
@@ -63,5 +72,12 @@ export class PostController {
     @Post("find")
     async findByCategory(@Body() dto: FindPostDto) {
         return await this.postService.findByCategory(dto);
+    }
+
+    @UsePipes(new ValidationPipe())
+    @HttpCode(200)
+    @Post("findLite")
+    async findByCategoryLite(@Body() dto: FindPostDto) {
+        return await this.postService.findByCategoryLite(dto);
     }
 }
