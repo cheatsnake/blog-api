@@ -48,36 +48,6 @@ export class PostService {
 
     async findByCategory(dto: FindPostDto) {
         return this.postModel
-            .aggregate([
-                {
-                    $match: {
-                        category: dto.category,
-                    },
-                },
-                {
-                    $sort: {
-                        _id: 1,
-                    },
-                },
-                {
-                    $limit: dto.limit,
-                },
-                {
-                    $lookup: {
-                        from: "Comment",
-                        localField: "_id",
-                        foreignField: "postId",
-                        as: "comments",
-                    },
-                },
-            ])
-            .exec() as unknown as (PostModel & {
-            comments: CommentModel[];
-        })[];
-    }
-
-    async findByCategoryLite(dto: FindPostDto) {
-        return this.postModel
             .find({ category: dto.category })
             .limit(dto.limit)
             .select("-content -tags");

@@ -73,11 +73,4 @@ export class PostController {
     async findByCategory(@Body() dto: FindPostDto) {
         return await this.postService.findByCategory(dto);
     }
-
-    @UsePipes(new ValidationPipe())
-    @HttpCode(200)
-    @Post("findLite")
-    async findByCategoryLite(@Body() dto: FindPostDto) {
-        return await this.postService.findByCategoryLite(dto);
-    }
 }
