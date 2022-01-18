@@ -13,11 +13,19 @@ export class CommentService {
     ) {}
 
     async create(dto: CreateCommentDto) {
-        return await this.commentModel.create(dto);
+        return await this.commentModel.create({ ...dto, verified: false });
     }
 
     async findById(id: string) {
         return await this.commentModel.findById(id).exec();
+    }
+
+    async verifiedById(id: string) {
+        const comment = await this.findById(id);
+        comment.verified = true;
+        return await this.commentModel.findByIdAndUpdate(id, comment, {
+            new: true,
+        });
     }
 
     async findByPostId(postId: string): Promise<DocumentType<CommentModel>[]> {

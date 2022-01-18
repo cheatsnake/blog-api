@@ -6,6 +6,7 @@ import {
     HttpException,
     HttpStatus,
     Param,
+    Patch,
     Post,
     UseGuards,
     UsePipes,
@@ -33,6 +34,16 @@ export class CommentController {
             throw new HttpException(COMMENT_NOT_FOUND, HttpStatus.NOT_FOUND);
         }
         return comment;
+    }
+
+    @UseGuards(JwtAuthGuard)
+    @Get("verified/:id")
+    async verifiedById(@Param("id") id: string) {
+        const verifiedComment = await this.commentService.verifiedById(id);
+        if (!verifiedComment) {
+            throw new HttpException(COMMENT_NOT_FOUND, HttpStatus.NOT_FOUND);
+        }
+        return verifiedComment;
     }
 
     @Get("byPost/:postId")

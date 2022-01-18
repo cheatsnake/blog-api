@@ -15,4 +15,7 @@ export class CommentModel extends TimeStamps {
 
     @prop()
     postId: Types.ObjectId;
+
+    @prop()
+    verified: boolean;
 }
