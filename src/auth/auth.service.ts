@@ -1,8 +1,6 @@
 import { Injectable, UnauthorizedException } from "@nestjs/common";
 import { JwtService } from "@nestjs/jwt";
-import { ModelType } from "@typegoose/typegoose/lib/types";
-import { compare, genSalt, hash } from "bcryptjs";
-import { InjectModel } from "nestjs-typegoose";
+import { compare } from "bcryptjs";
 import { AdminModel } from "./admin.model";
 import { AdminService } from "./admin.service";
 import { EMAIL_NOT_FOUND, WRONG_PASSWORD } from "./auth.constants";
@@ -10,7 +8,6 @@ import { EMAIL_NOT_FOUND, WRONG_PASSWORD } from "./auth.constants";
 @Injectable()
 export class AuthService {
     constructor(
-        @InjectModel(AdminModel)
         private readonly adminService: AdminService,
         private readonly jwtService: JwtService
     ) {}
