@@ -32,8 +32,8 @@ This API provides the ability to create simple blogs with markdown markup based 
 | `POST`     | /api/comment/create             | {<br>&emsp; "author": "Author",<br> &emsp; "email": "example@mail.com",<br> &emsp; "content": "Hello World!",<br> &emsp; "postId": `id` <br>}  | Create comment for post  |
 | `GET`      | /api/comment/`id`               | `none`                                                                           | Find comment by id         |
 | `GET`      | /api/comment/byPost/`id`        | `none`                                                                           | Find comment by post id  |
-| `GET`      | /api/comment/verified/`id`      | `none`                                                                           | Verified comment _(For admins)_         |
-| `DELETE`   | /api/comment/`id`               | `none`                                                                           | Registration for admins  |
+| `GET`      | /api/comment/verified/`id`      | `none`                                                                           | Verified comment by id _(For admins)_         |
+| `DELETE`   | /api/comment/`id`               | `none`                                                                           | Delete comment by id _(For admins)_   |
 
 
 
