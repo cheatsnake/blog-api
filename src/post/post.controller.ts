@@ -13,6 +13,7 @@ import {
     ValidationPipe,
 } from "@nestjs/common";
 import { JwtAuthGuard } from "src/auth/guards/jwt.guard";
+import { IdValidationPipe } from "src/pipes/id-validation.pipe";
 import { FindPostDto } from "./dto/find-post.dto";
 import { POST_NOT_FOUND } from "./post.constants";
 import { PostModel } from "./post.model";
@@ -30,7 +31,7 @@ export class PostController {
     }
 
     @Get(":id")
-    async findById(@Param("id") id: string) {
+    async findById(@Param("id", IdValidationPipe) id: string) {
         const post = await this.postService.findById(id);
         if (!post) {
             throw new NotFoundException(POST_NOT_FOUND);
@@ -39,7 +40,7 @@ export class PostController {
     }
 
     @Get("withComments/:id")
-    async findByIdWithComments(@Param("id") id: string) {
+    async findByIdWithComments(@Param("id", IdValidationPipe) id: string) {
         const post = await this.postService.findByIdWithComments(id);
         if (!post.length) {
             throw new NotFoundException(POST_NOT_FOUND);
@@ -49,7 +50,7 @@ export class PostController {
 
     @UseGuards(JwtAuthGuard)
     @Delete(":id")
-    async deleteById(@Param("id") id: string) {
+    async deleteById(@Param("id", IdValidationPipe) id: string) {
         const deletedPost = await this.postService.deleteById(id);
         if (!deletedPost) {
             throw new NotFoundException(POST_NOT_FOUND);
@@ -59,7 +60,10 @@ export class PostController {
     @UseGuards(JwtAuthGuard)
     @UsePipes(new ValidationPipe())
     @Patch(":id")
-    async updateById(@Param("id") id: string, @Body() dto: PostModel) {
+    async updateById(
+        @Param("id", IdValidationPipe) id: string,
+        @Body() dto: PostModel
+    ) {
         const updatedPost = await this.postService.updateById(id, dto);
         if (!updatedPost) {
             throw new NotFoundException(POST_NOT_FOUND);

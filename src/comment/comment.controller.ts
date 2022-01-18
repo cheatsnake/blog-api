@@ -13,6 +13,7 @@ import {
     ValidationPipe,
 } from "@nestjs/common";
 import { JwtAuthGuard } from "src/auth/guards/jwt.guard";
+import { IdValidationPipe } from "src/pipes/id-validation.pipe";
 import { COMMENT_NOT_FOUND } from "./comment.constants";
 import { CommentService } from "./comment.service";
 import { CreateCommentDto } from "./dto/create-comment.dto";
@@ -28,7 +29,7 @@ export class CommentController {
     }
 
     @Get("/:id")
-    async findById(@Param("id") id: string) {
+    async findById(@Param("id", IdValidationPipe) id: string) {
         const comment = await this.commentService.findById(id);
         if (!comment) {
             throw new HttpException(COMMENT_NOT_FOUND, HttpStatus.NOT_FOUND);
@@ -38,7 +39,7 @@ export class CommentController {
 
     @UseGuards(JwtAuthGuard)
     @Get("verified/:id")
-    async verifiedById(@Param("id") id: string) {
+    async verifiedById(@Param("id", IdValidationPipe) id: string) {
         const verifiedComment = await this.commentService.verifiedById(id);
         if (!verifiedComment) {
             throw new HttpException(COMMENT_NOT_FOUND, HttpStatus.NOT_FOUND);
@@ -47,13 +48,13 @@ export class CommentController {
     }
 
     @Get("byPost/:postId")
-    async findByPostId(@Param("postId") postId: string) {
+    async findByPostId(@Param("postId", IdValidationPipe) postId: string) {
         return await this.commentService.findByPostId(postId);
     }
 
     @UseGuards(JwtAuthGuard)
     @Delete(":id")
-    async deleteById(@Param("id") id: string) {
+    async deleteById(@Param("id", IdValidationPipe) id: string) {
         const deletedComment = await this.commentService.deleteById(id);
         if (!deletedComment) {
             throw new HttpException(COMMENT_NOT_FOUND, HttpStatus.NOT_FOUND);
