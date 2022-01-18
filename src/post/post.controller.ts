@@ -8,9 +8,11 @@ import {
     Param,
     Patch,
     Post,
+    UseGuards,
     UsePipes,
     ValidationPipe,
 } from "@nestjs/common";
+import { JwtAuthGuard } from "src/auth/guards/jwt.guard";
 import { FindPostDto } from "./dto/find-post.dto";
 import { POST_NOT_FOUND } from "./post.constants";
 import { PostModel } from "./post.model";
@@ -20,6 +22,7 @@ import { PostService } from "./post.service";
 export class PostController {
     constructor(private readonly postService: PostService) {}
 
+    @UseGuards(JwtAuthGuard)
     @UsePipes(new ValidationPipe())
     @Post("create")
     async create(@Body() dto: PostModel) {
@@ -35,6 +38,7 @@ export class PostController {
         return post;
     }
 
+    @UseGuards(JwtAuthGuard)
     @Delete(":id")
     async deleteById(@Param("id") id: string) {
         const deletedPost = await this.postService.deleteById(id);
@@ -43,6 +47,7 @@ export class PostController {
         }
     }
 
+    @UseGuards(JwtAuthGuard)
     @UsePipes(new ValidationPipe())
     @Patch(":id")
     async updateById(@Param("id") id: string, @Body() dto: PostModel) {

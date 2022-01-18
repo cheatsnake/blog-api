@@ -7,9 +7,11 @@ import {
     HttpStatus,
     Param,
     Post,
+    UseGuards,
     UsePipes,
     ValidationPipe,
 } from "@nestjs/common";
+import { JwtAuthGuard } from "src/auth/guards/jwt.guard";
 import { COMMENT_NOT_FOUND } from "./comment.constants";
 import { CommentService } from "./comment.service";
 import { CreateCommentDto } from "./dto/create-comment.dto";
@@ -29,6 +31,7 @@ export class CommentController {
         return this.commentService.findByPostId(postId);
     }
 
+    @UseGuards(JwtAuthGuard)
     @Delete(":id")
     async deleteById(@Param("id") id: string) {
         const deletedComment = await this.commentService.deleteById(id);
