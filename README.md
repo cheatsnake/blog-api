@@ -29,7 +29,7 @@ This API provides the ability to create simple blogs with markdown markup based 
 
 | Method     | URI                             | Body (JSON)                                                                      |  Action                  |
 |------------|---------------------------------|----------------------------------------------------------------------------------|--------------------------|
-| `POST`     | /api/comment/create             | {<br>&emsp; "author": "Author",<br> &emsp; "email": "example@mail.com",<br> &emsp; "content": "Hello World!",<br> &emsp; "postId": `id` <br>}  | Create comment for post  |
+| `POST`     | /api/comment/create             | {<br>&emsp; "author": "Author",<br> &emsp; "email": "test@mail.com",<br> &emsp; "content": "Hello World!",<br> &emsp; "postId": `id` <br>}  | Create comment for post  |
 | `GET`      | /api/comment/`id`               | `none`                                                                           | Find comment by id         |
 | `GET`      | /api/comment/byPost/`id`        | `none`                                                                           | Find comment by post id  |
 | `GET`      | /api/comment/verified/`id`      | `none`                                                                           | Verified comment by id _(For admins)_         |
