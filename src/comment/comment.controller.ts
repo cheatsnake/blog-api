@@ -6,14 +6,13 @@ import {
     HttpException,
     HttpStatus,
     Param,
-    Patch,
     Post,
     UseGuards,
     UsePipes,
     ValidationPipe,
 } from "@nestjs/common";
-import { JwtAuthGuard } from "src/auth/guards/jwt.guard";
-import { IdValidationPipe } from "src/pipes/id-validation.pipe";
+import { JwtAuthGuard } from "../auth/guards/jwt.guard";
+import { IdValidationPipe } from "../pipes/id-validation.pipe";
 import { COMMENT_NOT_FOUND } from "./comment.constants";
 import { CommentService } from "./comment.service";
 import { CreateCommentDto } from "./dto/create-comment.dto";

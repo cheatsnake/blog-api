@@ -12,8 +12,8 @@ import {
     UsePipes,
     ValidationPipe,
 } from "@nestjs/common";
-import { JwtAuthGuard } from "src/auth/guards/jwt.guard";
-import { IdValidationPipe } from "src/pipes/id-validation.pipe";
+import { JwtAuthGuard } from "../auth/guards/jwt.guard";
+import { IdValidationPipe } from "../pipes/id-validation.pipe";
 import { FindPostDto } from "./dto/find-post.dto";
 import { POST_NOT_FOUND } from "./post.constants";
 import { PostModel } from "./post.model";
