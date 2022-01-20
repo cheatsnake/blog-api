@@ -6,6 +6,21 @@ Crafted using `Nest.js` + `MongoDB`
 ## :mag: Overview
 This API provides the ability to create simple blogs with markdown markup based on an already created system of posts and comments. For convenient blogging, there is an administrator authorization service with a set of secure routes. The comments service does not require registration, but all comments can be verified by administrators.
 
+## :rocket: Launch server
+1. Clone this repo
+2. Install all packages
+```sh
+npm install
+```
+3. Run server for development
+```sh
+npm run start:dev
+```
+5. Run server for production
+```sh
+npm run start
+```
+
 ## :page_facing_up: API usage
 ### :closed_lock_with_key: Auth for admins
 
@@ -37,6 +52,4 @@ This API provides the ability to create simple blogs with markdown markup based 
 
 
 
-## :rocket: Launch server
-### :house: Launch localy
-### :whale: Launch with Docker
+## :whale: Launch with Docker
