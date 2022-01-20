@@ -24,7 +24,7 @@ export class CommentController {
     @UsePipes(new ValidationPipe())
     @Post("create")
     async create(@Body() dto: CreateCommentDto) {
-        this.commentService.create(dto);
+        return await this.commentService.create(dto);
     }
 
     @Get("/:id")

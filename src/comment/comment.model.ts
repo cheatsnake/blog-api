@@ -4,16 +4,16 @@ import { Types } from "mongoose";
 
 export interface CommentModel extends Base {}
 export class CommentModel extends TimeStamps {
-    @prop()
+    @prop({ required: true })
     author: string;
 
-    @prop()
+    @prop({ required: true })
     email: string;
 
-    @prop()
+    @prop({ required: true })
     content: string;
 
-    @prop()
+    @prop({ required: true })
     postId: Types.ObjectId;
 
     @prop()

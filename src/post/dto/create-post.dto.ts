@@ -1,9 +1,11 @@
-import { IsArray, IsString } from "class-validator";
+import { IsArray, IsString, MinLength } from "class-validator";
 
 export class CreatePostDto {
-    @IsString()
+    @MinLength(1)
+    @IsString({})
     category: string;
 
+    @MinLength(1)
     @IsString()
     title: string;
 
@@ -11,9 +13,11 @@ export class CreatePostDto {
     @IsString({ each: true })
     tags: string[];
 
+    @MinLength(1)
     @IsString()
     image: string;
 
+    @MinLength(1)
     @IsString()
     content: string;
 }
