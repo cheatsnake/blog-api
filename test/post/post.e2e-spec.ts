@@ -49,9 +49,9 @@ describe("PostController (e2e)", () => {
         accessToken = testAdmin.body.access_token;
     });
 
-    it("/post/create (POST)", async () => {
+    it("/post (POST)", async () => {
         return request(app.getHttpServer())
-            .post("/post/create")
+            .post("/post")
             .set("Authorization", `Bearer ${accessToken}`)
             .send(postDto)
             .expect(201)

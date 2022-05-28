@@ -53,16 +53,16 @@ describe("CommentController (e2e)", () => {
         accessToken = testAdmin.body.access_token;
 
         const testPost = await request(app.getHttpServer())
-            .post("/post/create")
+            .post("/post")
             .set("Authorization", `Bearer ${accessToken}`)
             .send(postDto);
 
         postId = testPost.body._id;
     });
 
-    it("/comment/create (POST) - success", async () => {
+    it("/comment (POST) - success", async () => {
         return request(app.getHttpServer())
-            .post("/comment/create")
+            .post("/comment")
             .send({ ...commentDto, postId: postId })
             .expect(201)
             .then(({ body }: request.Response) => {
@@ -71,9 +71,9 @@ describe("CommentController (e2e)", () => {
             });
     });
 
-    it("/comment/create (POST) - fail", () => {
+    it("/comment (POST) - fail", () => {
         return request(app.getHttpServer())
-            .post("/comment/create")
+            .post("/comment")
             .send({ ...commentDto, email: "test" })
             .expect(400, {
                 statusCode: 400,

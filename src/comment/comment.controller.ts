@@ -22,7 +22,7 @@ export class CommentController {
     constructor(private readonly commentService: CommentService) {}
 
     @UsePipes(new ValidationPipe())
-    @Post("create")
+    @Post()
     async create(@Body() dto: CreateCommentDto) {
         return await this.commentService.create(dto);
     }

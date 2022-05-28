@@ -25,7 +25,7 @@ export class PostController {
 
     @UseGuards(JwtAuthGuard)
     @UsePipes(new ValidationPipe())
-    @Post("create")
+    @Post()
     async create(@Body() dto: PostModel) {
         return this.postService.create(dto);
     }
