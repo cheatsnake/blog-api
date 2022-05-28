@@ -49,6 +49,8 @@ docker run -p 3000:3000 --env-file .env --name server blog-api
 
 ## :page_facing_up: API usage
 
+You can use a specially prepared collection of endpoints for Insomnia client. For this just import `./blog-api.insomnia.json` file.
+
 ### :closed_lock_with_key: Auth for admins
 
 | Method | URI                | Body (JSON)                                                                      | Action                  |
